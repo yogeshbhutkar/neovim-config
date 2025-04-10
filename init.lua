@@ -5,7 +5,7 @@ if not (vim.uv or vim.loop).fs_stat(lazypath) then
 	if vim.v.shell_error ~= 0 then
 		vim.api.nvim_echo({
 			{ "Failed to clone lazy.nvim:\n", "ErrorMsg" },
-			{ out, "WarningMsg" },
+			{ out,                            "WarningMsg" },
 			{ "\nPress any key to exit..." },
 		}, true, {})
 		vim.fn.getchar()
@@ -17,6 +17,16 @@ vim.opt.number = true
 
 vim.g.mapleader = " "
 vim.g.maplocalleader = "\\"
+
+-- Set up keymaps for showing space and tab characters.
+vim.keymap.set("n", "<leader>s", function()
+	if vim.o.list then
+		vim.opt.list = false
+	else
+		vim.opt.list = true
+		vim.opt.listchars = { tab = "→ ", space = "·" }
+	end
+end, { desc = "Toggle listchars" })
 
 require("vim-options")
 require("lazy").setup("plugins")
